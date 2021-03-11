@@ -10,6 +10,16 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+var radndomNumber = function() {
+  var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+  return value;
+}
+
+var damage = radndomNumber(enemyAttack - 3, enemyAttack);
+
+playerHealth = Math.max(0, playerHealth - damage);
+
 var fight = function(enemyNames) {
     while (enemyHealth  > 0 && playerHealth > 0)  {
         // ask user if they'd liked to fight or run
@@ -26,14 +36,14 @@ var fight = function(enemyNames) {
             if (confirmSkip) {
                 window.alert (playerName + " has decided to skip this fight. Goodbye. ")
                 // subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log(playerName + " now has " + playerMoney + " coins remaining. ");
                 break;
             }
         }
 
         //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
-        enemyHealth = enemyHealth - playerAttack;
+        enemyHealth = Math.max(0, enemyHealth - playerAttack);
         // Log a resulting message to the console so we know that it worked.
         console.log(
             playerName + " attacked " + enemyNames + ". " + enemyNames + " now has " + enemyHealth + " health remaining."
@@ -53,7 +63,7 @@ var fight = function(enemyNames) {
             }
 
         // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable
-        playerHealth = playerHealth - enemyAttack;
+        playerHealth = Math.max(0, playerHealth - enemyAttack);
             // Log a resulting message to the console so we know that it worked.
             console.log(
                 enemyNames + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
@@ -79,7 +89,7 @@ var startGame = function () {
             window.alert("Welcome to Robot Gladiators! Round " + ( i + 1 ));
         // call fight function with enemy robot
         var pickedEnemyName = enemyNames[i];
-        enemyHealth = 50;
+        enemyHealth = radndomNumber(40, 60);
         fight(pickedEnemyName);
         }  else {
             window.alert("You have lost your robot in battle! Game Over!");
@@ -125,6 +135,7 @@ var shop = function() {
   );
 
   switch (shopOptionPrompt) {
+    case "REFILL":
     case "refill":
       if (playerMoney >= 7) {
         window.alert("Refilling player's health by 20 for 7 dollars.");
@@ -138,6 +149,7 @@ var shop = function() {
       }
       
       break;
+    case "UPGRADE":
     case "upgrade":
       if (playerMoney >= 7) {
         window.alert("Upgrading player's attack by 6 for 7 dollars.")
@@ -151,6 +163,7 @@ var shop = function() {
       }
 
       break;
+    case "LEAVE":
     case "leave":
       window.alert("Leaving the store.");
 
